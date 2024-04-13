@@ -1,9 +1,11 @@
-FROM golang:latest
+FROM golang:1.7
 
 COPY . /go/src/github.com/microservices-demo/payment/
 
-RUN go get -u github.com/FiloSottile/gvt
-RUN cd /go/src/github.com/microservices-demo/payment/ && gvt restore
+# ใช้ go modules แทน gvt
+WORKDIR /go/src/github.com/microservices-demo/payment/
+RUN go mod init
+RUN go mod tidy
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /app github.com/microservices-demo/payment/cmd/paymentsvc
 
