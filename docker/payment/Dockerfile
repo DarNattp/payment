@@ -1,4 +1,4 @@
-FROM golang:1.7
+FROM golang:1.20
 
 COPY . /go/src/github.com/microservices-demo/payment/
 
@@ -9,7 +9,7 @@ RUN go mod tidy
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /app github.com/microservices-demo/payment/cmd/paymentsvc
 
-FROM alpine:3.4
+FROM alpine:3.17
 
 WORKDIR /
 COPY --from=0 /app /app
